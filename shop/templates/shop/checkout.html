@@ -1,0 +1,116 @@
+{% extends 'shop/basic.html' %}
+
+{% block title %} Checkout {% endblock %}
+
+{% block body %} 
+
+    <div class="container">
+        <div class="col my-4" style="max-width: 100%">
+            <h2>Step 1 - Cart Express Checkout - Review Your Cart Items</h2>
+            <div>
+                <ul class="list-group my-4" id="items">
+                  
+                </ul>
+            </div>
+        </div>
+
+        <div class="col my-4">
+            <h2>Step 2 - Enter All Details</h2>
+
+            <form method="post" action="/shop/checkout/">
+                {% csrf_token %}
+              <input type="hidden" id="itemsJson" name="itemsJson">
+              <input type="hidden" id="amount" name="amount">
+
+              <div class="form-row">
+
+                <div class="form-group col-md-6">
+                  <label for="name">Name</label>
+                  <input type="text" class="form-control" id="name" name="name" placeholder="Name">
+                </div>
+
+                <div class="form-group col-md-6">
+                  <label for="email">Email</label>
+                  <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+                </div>
+
+              </div>
+
+              <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" class="form-control" id="phone" name="phone" placeholder="Phone No">
+              </div>
+
+              <div class="form-group">
+                <label for="address">Address</label>
+                <textarea class="form-control" id="address" rows="3" name="address" placeholder="1234 Main St"> </textarea>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="city">City</label>
+                  <input type="text" class="form-control" id="city" name="city" >
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="state">State</label>
+                  <input type="text" class="form-control" id="state" name="state" placeholder="State">
+                </div>
+                <div class="form-group col-md-2">
+                  <label for="zip_code">Zip</label>
+                  <input type="number" class="form-control" id="zip_code" name="zip_code">
+                </div>
+              </div>
+
+              <button type="submit" class="btn btn-primary">Place Order</button>
+            </form>
+        </div>
+    </div>
+
+ {% endblock %}
+
+ {% block js %}
+    <script>
+
+        if(localStorage.getItem('cart') == null){
+            var cart = {};
+        }
+        else{
+            var cart = JSON.parse(localStorage.getItem('cart'));
+            var totalCost = Number(JSON.parse(localStorage.getItem('totalCost')))
+        }
+
+        if($.isEmptyObject(cart)){
+            mystr = "Your Cart is Empty, Please add some items in your cart before checking out!"
+            $('#items').append(mystr)
+        }
+        else{
+            for(item in cart){
+                let name = cart[item][1]
+                let qty = cart[item][0]
+                let price = cart[item][2]
+                mystr = `<li class="list-group-item d-flex justify-content-between align-items-center">
+                            ${name} (${qty})
+                            <span class="badge">Rs. ${price}</span>
+                        </li>`
+                $('#items').append(mystr)
+            }
+
+            mystr =  `<li class="list-group-item d-flex justify-content-between align-items-center my-3">
+                            <b>Total: </b>
+                            <span class="badge">Rs. ${totalCost}</span>
+                        </li>`
+            $('#items').append(mystr)
+                        
+        }
+
+        $('#itemsJson').val(JSON.stringify(cart))
+
+        {% if thank %}
+            alert('Thanks for ordering with us. Your Order ID is {{id}}. Use it to track your order')
+            localStorage.clear()
+            document.location = "/shop/"
+        {% endif %}
+
+        $('#amount').val(totalCost)
+    </script>
+ {% endblock %}
