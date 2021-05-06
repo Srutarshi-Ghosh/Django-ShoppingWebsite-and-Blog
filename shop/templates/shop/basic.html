@@ -25,30 +25,35 @@
 
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav mr-auto">
-				<li class="nav-item active">
-					<a class="nav-link" href="/shop">Home <span class="sr-only">(current)</span></a>
-				</li>
-				<li class="nav-item active">
-					<a class="nav-link" href="/shop/about">About Us</span></a>
-				</li>
-				<li class="nav-item active">
-					<a class="nav-link" href="/shop/tracker">Tracker</a>
-				</li>
-				<li class="nav-item active">
-					<a class="nav-link" href="/blog">Blog</a>
-				</li>
-				<li class="nav-item active">
-					<a class="nav-link" href="/shop/contact">Contact Us</a>
-				</li>
-				
+
+					<li class="nav-item {% block homeactive %} {% endblock %}">
+						<a class="nav-link" href="/shop">Home <span class="sr-only">(current)</span></a>
+					</li>
+
+					<li class="nav-item {% block aboutactive %} {% endblock %}">
+						<a class="nav-link" href="/shop/about">About Us</span></a>
+					</li>
+
+					<li class="nav-item {% block trackeractive %} {% endblock %}">
+						<a class="nav-link" href="/shop/tracker">Tracker</a>
+					</li>
+					
+					<li class="nav-item {% block contactactive %} {% endblock %}">
+						<a class="nav-link" href="/shop/contact">Contact Us</a>
+					</li>
+
+					<li class="nav-item">
+						<a class="nav-link" href="/blog">Blog</a>
+					</li>
+					
 				</ul>
 				<form method="get" action="/shop/search/" class="form-inline my-2 my-lg-0">
-				<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search" id="search">
-				<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+					<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search" id="search">
+					<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
 				</form>
 
 				<button id="popcart" type="button" class="btn btn-secondary mx-2" data-container="body" data-toggle="popover" data-placement="bottom" data-html=true data-content="">
-				Cart(<span id="cart">0</span>)
+					Cart(<span id="cart">0</span>)
 				</button>
 			</div>
 		</nav>

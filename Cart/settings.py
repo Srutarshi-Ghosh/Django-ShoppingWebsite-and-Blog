@@ -135,5 +135,5 @@ MEDIA_URL = '/media/'
 
 
 MESSAGE_TAGS = {
-    messages.ERROR = 'danger'
+    messages.ERROR: 'danger'
 }

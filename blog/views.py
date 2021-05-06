@@ -5,14 +5,14 @@ from django.contrib import messages
 
 def index(request):
     myposts = Blogpost.objects.all()
-    return render(request, 'index.html', {'myposts': myposts})
+    return render(request, 'bloghome.html', {'myposts': myposts})
 
 def blogpost(request, slug):
     post = Blogpost.objects.filter(slug=slug).first()
     return render(request, 'blogpost.html', {'post': post})
 
 def about(request):
-    return HttpResponse("This is About")
+    return render(request, 'about.html')
 
 def contact(request):
     if request.method == 'POST':
@@ -26,5 +26,5 @@ def contact(request):
         else: 
             contact = Contact(name=name, email=email, phone=phone, content=content)
             contact.save()
-            messages.error(request, "Your form has been submitted")
+            messages.success(request, "Your form has been submitted")
     return render(request, 'contact.html')
