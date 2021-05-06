@@ -5,5 +5,5 @@ urlpatterns = [
     path('', views.index, name="blogHome"),
     path('contact', views.contact, name="blogContact"),
     path('about', views.about, name="blogAbout"),
-    path('blogpost/<int:id>', views.blogpost, name="blogHome"),
+    path('<str:slug>', views.blogpost, name="blogHome"),
 ]

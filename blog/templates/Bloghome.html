@@ -11,7 +11,7 @@
 	</div>
 
 	<div class="container my-3">
-		<h2>Coding Articles by Srutarshi Ghosh:</h2>
+		<h2>Interesting Articles:</h2>
 		<br>
 
 		{% for post in allPosts %}
@@ -24,7 +24,7 @@
 					<p class="card-text mb-auto">{{post.content | truncatechars:400}}</p>
 
 					<div class="my-2">
-						<a role="button" href="#" class="btn btn-primary">Continue reading</a>
+						<a role="button" href="{{post.slug}}" class="btn btn-primary">Continue reading</a>
 					</div>
 				</div>
 
