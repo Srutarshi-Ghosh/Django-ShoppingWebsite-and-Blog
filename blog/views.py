@@ -5,11 +5,13 @@ from django.contrib import messages
 
 def index(request):
     allPosts = Blogpost.objects.all()
-    return render(request, 'bloghome.html', {'allPosts': allPosts})
+    params = {'allPosts': allPosts}
+    return render(request, 'bloghome.html', params)
 
 def blogpost(request, slug):
     post = Blogpost.objects.filter(slug=slug).first()
-    return render(request, 'blogpost.html', {'post': post})
+    params = {'post': post}
+    return render(request, 'blogpost.html', params)
 
 def about(request):
     return render(request, 'about.html')
@@ -28,3 +30,19 @@ def contact(request):
             contact.save()
             messages.success(request, "Your form has been submitted")
     return render(request, 'contact.html')
+
+
+def search(request):
+    query = request.GET['query']
+
+    if len(query) > 70:
+        posts = Blogpost.objects.none()
+    else:
+        title_matched_posts = Blogpost.objects.filter(title__icontains=query)
+        content_matched_posts = Blogpost.objects.filter(content__icontains=query)
+        posts = title_matched_posts.union(content_matched_posts)
+
+    if posts.count() == 0:
+        messages.warning(request, "No search results found. Please refine your Query!")
+    params = {'posts': posts, 'query': query}
+    return render(request, 'search.html', params)
