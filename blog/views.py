@@ -4,8 +4,8 @@ from django.http import HttpResponse
 from django.contrib import messages
 
 def index(request):
-    myposts = Blogpost.objects.all()
-    return render(request, 'bloghome.html', {'myposts': myposts})
+    allPosts = Blogpost.objects.all()
+    return render(request, 'bloghome.html', {'allPosts': allPosts})
 
 def blogpost(request, slug):
     post = Blogpost.objects.filter(slug=slug).first()

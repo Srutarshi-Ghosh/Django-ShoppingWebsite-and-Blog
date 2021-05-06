@@ -17,14 +17,11 @@ class Contact(models.Model):
 class Blogpost(models.Model):
     post_id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=500)
-    heading1 = models.CharField(max_length=500)
-    content_head1 = models.CharField(max_length=5000)
-    heading2 = models.CharField(max_length=500)
-    content_head2 = models.CharField(max_length=5000)
-    heading3 = models.CharField(max_length=500)
-    content_head3 = models.CharField(max_length=5000)
-    pub_date = models.DateField()
+    content = models.TextField(default='')
+    author = models.CharField(max_length=50, default='')
+    slug = models.CharField(max_length=130, default='')
+    pub_date = models.DateField(blank=True)
     thumbnail = models.ImageField(upload_to='blog/images', default='')
 
     def __str__(self):
-        return self.title
+        return self.title + ' by ' + self.author
