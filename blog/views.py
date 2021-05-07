@@ -1,7 +1,8 @@
-from django.shortcuts import render
-from .models import Blogpost, Contact
-from django.http import HttpResponse
+from django.shortcuts import render, HttpResponse, redirect
+from .models import Blogpost, Contact, BlogUser
 from django.contrib import messages
+from .functions.auth_functions import *
+
 
 def index(request):
     allPosts = Blogpost.objects.all()
@@ -46,3 +47,14 @@ def search(request):
         messages.warning(request, "No search results found. Please refine your Query!")
     params = {'posts': posts, 'query': query}
     return render(request, 'search.html', params)
+
+
+def handleSignUp(request):
+    user = BlogUser.objects.filter(username="s").count()
+    if user:
+        print(1)
+    else:
+        print(0)
+    print(user)
+    return signup(request)
+    

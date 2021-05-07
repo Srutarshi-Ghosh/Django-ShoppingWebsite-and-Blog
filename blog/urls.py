@@ -6,5 +6,6 @@ urlpatterns = [
     path('contact', views.contact, name="blogContact"),
     path('about', views.about, name="blogAbout"),
     path('search', views.search, name="search"),
+    path('signup', views.handleSignUp, name="signup"),
     path('<str:slug>', views.blogpost, name="blogHome"),
 ]
