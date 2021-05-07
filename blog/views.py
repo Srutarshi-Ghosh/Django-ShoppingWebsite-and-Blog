@@ -1,7 +1,8 @@
 from django.shortcuts import render, HttpResponse, redirect
 from .models import Blogpost, Contact, BlogUser
 from django.contrib import messages
-from .functions.auth_functions import *
+from .functions.auth_signup_functions import *
+from .functions.auth_login_functions import *
 
 
 def index(request):
@@ -52,3 +53,10 @@ def search(request):
 def handleSignUp(request):
     return signup(request)
     
+
+def handleLogin(request):
+    return login(request)
+
+
+def handleLogout(request):
+    return logout(request)

@@ -129,16 +129,18 @@
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title" id="loginModalLabel">Sign Up</h5>
+						<h5 class="modal-title" id="loginModalLabel">Login</h5>
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 					</div>
 					<div class="modal-body">
 
-						<form action="" method="get">
+						<form action="/login" method="post">
+
+							{% csrf_token %}
 
 							<div class="form-group">
 								<label for="loginusername">Username</label>
-								<input type="text" name="username" class="form-control" placeholder="Username" id="loginusername">
+								<input type="text" name="loginusername" class="form-control" placeholder="Username" id="loginusername">
 							</div>
 
 							<div class="form-group">
@@ -146,12 +148,14 @@
 								<input type="password" name="loginpassword" class="form-control" placeholder="" id="loginpassword">
 							</div>
 
+							<div class="modal-footer">
+								<button type="submit" class="btn btn-primary">Submit</button>
+							</div>
+
 						</form>
 
 					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-primary">Submit</button>
-					</div>
+					
 				</div>
 			</div>
 		</div>
