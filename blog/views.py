@@ -50,11 +50,5 @@ def search(request):
 
 
 def handleSignUp(request):
-    user = BlogUser.objects.filter(username="s").count()
-    if user:
-        print(1)
-    else:
-        print(0)
-    print(user)
     return signup(request)
     
