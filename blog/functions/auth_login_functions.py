@@ -16,6 +16,8 @@ def login(request):
 
     if user and check_password(login_password, user.password):
         messages.success(request, "Successfully logged in")
+        request.session['username'] = login_username
+        request.session['is_authenticated'] = True
         return redirect("/blog")
 
     messages.error(request, "Invalid credentials! Please try again")
@@ -26,5 +28,7 @@ def logout(request):
     if request.method != 'POST':
         return HttpResponse("Page Not Accessable")
 
+    request.session['username'] = None
+    request.session['is_authenticated'] = False
     messages.success(request, "Successfully logged out")
     return redirect("/blog")
