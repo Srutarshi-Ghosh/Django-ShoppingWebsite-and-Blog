@@ -1,7 +1,7 @@
 from ..models import BlogUser
 from django.contrib.auth.hashers import make_password, check_password
 from django.contrib import messages
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponse
 
 def login(request):
     
@@ -25,9 +25,7 @@ def login(request):
    
 
 def logout(request):
-    if request.method != 'POST':
-        return HttpResponse("Page Not Accessable")
-
+    
     request.session['username'] = None
     request.session['is_authenticated'] = False
     messages.success(request, "Successfully logged out")

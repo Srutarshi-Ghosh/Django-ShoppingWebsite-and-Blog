@@ -11,7 +11,7 @@ def index(request):
 
 
 def blogpost(request, slug):
-    return get_blogpost_page(request)
+    return get_blogpost_page(request, slug)
 
 def about(request):
     return render(request, 'about.html')
