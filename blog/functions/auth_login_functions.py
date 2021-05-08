@@ -3,7 +3,7 @@ from django.contrib.auth.hashers import make_password, check_password
 from django.contrib import messages
 from django.shortcuts import render, redirect, HttpResponse
 
-def login(request):
+def loginUtil(request):
     
     if request.method != "POST":
         return HttpResponse("Page Not Accessable")
@@ -24,8 +24,7 @@ def login(request):
     return redirect("/blog")
    
 
-def logout(request):
-    
+def logoutUtil(request):
     request.session['username'] = None
     request.session['is_authenticated'] = False
     messages.success(request, "Successfully logged out")

@@ -6,7 +6,7 @@ from django.contrib import messages
 
 
 
-def signup(request):
+def signupUtil(request):
     if request.method != 'POST':
         return HttpResponse("<h1>Not Allowed</h1>")
     

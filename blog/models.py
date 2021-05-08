@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.utils.timezone import now
 
 
 class Contact(models.Model):
@@ -41,5 +41,12 @@ class BlogUser(models.Model):
         return self.first_name + ' ' + self.last_name + ' (' + self.username + ')'
 
     
+class BlogComment(models.Model):
+    sl_no = models.AutoField(primary_key=True)
+    comment = models.TextField()
+    user = models.ForeignKey(BlogUser, on_delete=models.CASCADE)
+    post = models.ForeignKey(Blogpost, on_delete=models.CASCADE)
+    parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True)
+    timestamp = models.DateTimeField(default=now)
 
 

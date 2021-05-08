@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.shortcuts import render
 
 
-def parse_contact(request):
+def contactUtil(request):
     if request.method == 'POST':
         name = request.POST.get('name')
         email = request.POST.get('email')

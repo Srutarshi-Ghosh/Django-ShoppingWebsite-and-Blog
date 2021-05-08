@@ -2,7 +2,7 @@ from django.shortcuts import render
 from .functions.auth_signup_functions import *
 from .functions.auth_login_functions import *
 from .functions.contact_functions import *
-from .functions.home_functions import *
+from .functions.blogpage_functions import *
 from .functions.search_functions import *
 
 
@@ -14,12 +14,16 @@ def blogpost(request, slug):
     return get_blogpost_page(request, slug)
 
 
+def postComment(request):
+    return postCommentsUtil(request)
+
+
 def about(request):
     return render(request, 'about.html')
 
 
 def contact(request):
-    return parse_contact(request)
+    return contactUtil(request)
 
 
 def search(request):
@@ -27,12 +31,12 @@ def search(request):
 
 
 def handleSignUp(request):
-    return signup(request)
+    return signupUtil(request)
     
 
 def handleLogin(request):
-    return login(request)
+    return loginUtil(request)
 
 
 def handleLogout(request):
-    return logout(request)
+    return logoutUtil(request)
