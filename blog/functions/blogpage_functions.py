@@ -6,7 +6,7 @@ from django.contrib import messages
 def get_homepage(request):
     allPosts = Blogpost.objects.all()
     params = {'allPosts': allPosts}
-    
+
     return render(request, 'bloghome.html', params)
 
 
@@ -23,10 +23,14 @@ def postCommentsUtil(request):
     if request.method != 'POST':
         return HttpResponse("<h1>Not Allowed</h1>")
 
-    comment_content = request.POST.get('comments')
+    if not request.session['is_authenticated']:
+        messages.error(request, "You need to be Logged in to Post a Comment")
+        return redirect(f'/blog/{post.slug}')
+
+    comment_content = request.POST.get('comment')
     user = BlogUser.objects.get(username=request.session['username'])
-    post_slno = request.POST.get("post_slno")
-    post = Post.objects.get(sl_no=post_slno)
+    post_id = request.POST.get("post_id")
+    post = Blogpost.objects.get(post_id=post_id)
 
     comment = BlogComment(comment=comment_content, user=user, post=post)
     comment.save()

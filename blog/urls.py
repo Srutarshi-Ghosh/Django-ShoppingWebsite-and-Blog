@@ -9,5 +9,6 @@ urlpatterns = [
     path('signup', views.handleSignUp, name="signup"),
     path('login', views.handleLogin, name="login"),
     path('logout', views.handleLogout, name="logout"),
+    path('postComment', views.postComment, name="postComment"),
     path('<str:slug>', views.blogpost, name="blogHome"),
 ]
