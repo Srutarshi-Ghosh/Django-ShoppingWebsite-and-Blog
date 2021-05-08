@@ -20,6 +20,9 @@ from django.conf.urls.static import static
 from . import views
 
 
+admin.site.site_header = "MyBlog Admin"
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('shop/', include('shop.urls')),

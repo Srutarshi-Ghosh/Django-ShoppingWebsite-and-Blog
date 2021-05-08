@@ -13,12 +13,13 @@ def index(request):
 def blogpost(request, slug):
     return get_blogpost_page(request, slug)
 
+
 def about(request):
     return render(request, 'about.html')
 
 
 def contact(request):
-    return parse_contacts(request)
+    return parse_contact(request)
 
 
 def search(request):
