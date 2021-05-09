@@ -1,6 +1,7 @@
 {% extends 'basic.html' %}
 
 {% load humanize %}
+{% load extras %}
 
 {% block body %}
 
@@ -64,6 +65,7 @@
 			</div>
 
 			<input type="hidden" name="post_id" value="{{post.post_id}}">
+			<input type="hidden" name="parent_sno" value="">
 			<button type="submit" class="btn btn-primary">Submit</button>
 
 		</form>
@@ -78,6 +80,36 @@
 			<div class="col-md-11 mt-1"> 
 				<b>{{comment.user.username}}</b> <span class="badge badge-primary">{{comment.timestamp | naturaltime}}</span> 
 				<div> {{comment.comment}} </div>
+
+				<div class="reply mx-0">
+					<button class="btn btn-primary" data-toggle="collapse" data-target="#replyBox{{comment.sl_no}}" aria-controls="#replyBox{{comment.sl_no}}" aria-expanded="false">Reply</button>
+				</div>
+
+				<div class="collapse" id="replyBox{{comment.sl_no}}">
+					<div class="card card-body my-2">
+
+						<form method="post" action="/blog/postComment">
+							{% csrf_token %}
+
+							<div class="form-group">
+								<label for="comment">&nbsp;Post a Reply as <b>{{request.session.username}}</b></label>
+								<input type="text" class="form-control" name="comment" placeholder="Enter Reply Here">
+								<input type="hidden" name="parent_sno" value="{{comment.sl_no}}">
+							</div>
+							<input type="hidden" name="post_id" value="{{post.post_id}}">
+							<button type="submit" class="btn btn-primary">Submit</button>
+						</form>
+
+					</div>
+				</div>
+
+				<div class="replies bg-danger my-2">
+					{% for reply in reply_dict|get_val:comment.sl_no %}
+						{{reply.comment}}
+						<br>
+					{% endfor %}
+				</div>
+
 			</div>
 		</div>
 	

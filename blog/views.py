@@ -1,4 +1,6 @@
 from django.shortcuts import render
+from blog.templatetags import extras
+
 from .functions.auth_signup_functions import *
 from .functions.auth_login_functions import *
 from .functions.contact_functions import *

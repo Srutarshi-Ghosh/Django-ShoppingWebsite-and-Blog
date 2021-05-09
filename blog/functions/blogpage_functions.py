@@ -12,10 +12,17 @@ def get_homepage(request):
 
 def get_blogpost_page(request, slug):
     post = Blogpost.objects.filter(slug=slug).first()
-    comments = BlogComment.objects.filter(post=post)
+    comments = BlogComment.objects.filter(post=post, parent=None)
+    replies = BlogComment.objects.filter(post=post).exclude(parent=None)
+    
+    reply_dict = {}
+    for reply in replies:
+        if reply.parent.sl_no not in reply_dict:
+            reply_dict[reply.parent.sl_no] = [reply]
+        else:
+            reply_dict[reply.parent.sl_no].append(reply)
 
-    params = {'post': post, 'comments': comments}
-
+    params = {'post': post, 'comments': comments, 'reply_dict': reply_dict}
     return render(request, 'blogpost.html', params)
 
 
@@ -32,9 +39,14 @@ def postCommentsUtil(request):
 
     comment_content = request.POST.get('comment')
     user = BlogUser.objects.get(username=request.session['username'])
+    parent_sno = request.POST.get('parent_sno')
     
+    if not parent_sno:
+        comment = BlogComment(comment=comment_content, user=user, post=post)
+    else:
+        parent = BlogComment.objects.get(sl_no=parent_sno)
+        comment = BlogComment(comment=comment_content, user=user, post=post, parent=parent)
 
-    comment = BlogComment(comment=comment_content, user=user, post=post)
     comment.save()
     messages.success(request, "Your Comment has been Posted")
 
