@@ -23,14 +23,16 @@ def postCommentsUtil(request):
     if request.method != 'POST':
         return HttpResponse("<h1>Not Allowed</h1>")
 
+    post_id = request.POST.get("post_id")
+    post = Blogpost.objects.get(post_id=post_id)
+
     if not request.session['is_authenticated']:
         messages.error(request, "You need to be Logged in to Post a Comment")
         return redirect(f'/blog/{post.slug}')
 
     comment_content = request.POST.get('comment')
     user = BlogUser.objects.get(username=request.session['username'])
-    post_id = request.POST.get("post_id")
-    post = Blogpost.objects.get(post_id=post_id)
+    
 
     comment = BlogComment(comment=comment_content, user=user, post=post)
     comment.save()

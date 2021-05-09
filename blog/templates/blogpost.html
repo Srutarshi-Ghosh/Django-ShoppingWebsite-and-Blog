@@ -1,6 +1,9 @@
 {% extends 'basic.html' %}
 
+{% load humanize %}
+
 {% block body %}
+
 <div class="container">
 	<div class="row mt-4">
 		<div class="col-md-8 blog-main">
@@ -47,28 +50,33 @@
 
 
 <div class="container">
-	<h2>Comments</h2>
-	<form method="post" action="/blog/postComment">
+	<div class="row mb-3" style="border-bottom: 1px solid blue;"> <h2>Comments ({{comments.count}})</h2> </div>
 
-		{% csrf_token %}
+	{% if request.session.is_authenticated %}
 
-		<div class="form-group">
-			<label for="comment">Post Your Comment Here</label>
-			<input type="text" class="form-control" name="comment" placeholder="Enter Comment Here">
-		</div>
+		<form method="post" action="/blog/postComment">
 
-		<input type="hidden" name="post_id" value="{{post.post_id}}">
-		<button type="submit" class="btn btn-primary">Submit</button>
+			{% csrf_token %}
 
-	</form>
+			<div class="form-group">
+				<label for="comment">&nbsp;Post Your Comment Here as <b>{{request.session.username}}</b></label>
+				<input type="text" class="form-control" name="comment" placeholder="Enter Comment Here">
+			</div>
+
+			<input type="hidden" name="post_id" value="{{post.post_id}}">
+			<button type="submit" class="btn btn-primary">Submit</button>
+
+		</form>
+	
+	{% endif %}
 
 	{% for comment in comments %}
 		<div class="row my-3">
 			<div class="col-md-1">
 				<img src="/media/blog/images/blank-profile-picture-973460_640.png" class="rounded mx-auto d-block w-100 p-2" alt="User">
 			</div>
-			<div class="col-md-11"> 
-				<b>{{comment.user.username}}</b> at {{comment.timestamp}} 
+			<div class="col-md-11 mt-1"> 
+				<b>{{comment.user.username}}</b> <span class="badge badge-primary">{{comment.timestamp | naturaltime}}</span> 
 				<div> {{comment.comment}} </div>
 			</div>
 		</div>
