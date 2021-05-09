@@ -61,6 +61,20 @@
 		<button type="submit" class="btn btn-primary">Submit</button>
 
 	</form>
+
+	{% for comment in comments %}
+		<div class="row my-3">
+			<div class="col-md-1">
+				<img src="/media/blog/images/blank-profile-picture-973460_640.png" class="rounded mx-auto d-block w-100 p-2" alt="User">
+			</div>
+			<div class="col-md-11"> 
+				<b>{{comment.user.username}}</b> at {{comment.timestamp}} 
+				<div> {{comment.comment}} </div>
+			</div>
+		</div>
+	
+	{% endfor %}
+
 </div>
 
 {% endblock %}
