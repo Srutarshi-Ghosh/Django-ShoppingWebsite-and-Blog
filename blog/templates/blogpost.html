@@ -3,6 +3,13 @@
 {% load humanize %}
 {% load extras %}
 
+{% block css %}
+	<style>
+		
+	</style>
+{% endblock %}
+
+
 {% block body %}
 
 <div class="container">
@@ -18,7 +25,7 @@
 				<img src="/media/{{post.thumbnail}}" placeholder="{{post.title}}" alt="">
 
 
-				<p>{{post.content}}</p>
+				<span class="blog-content"><p>{{post.content|safe}}</p></span>
 				<br>
 				<!-- <div class="fb-like" data-href="http://127.0.0.1:8000/blog/blogpost/1" data-width="" data-layout="standard" data-action="like" data-size="small" data-share="true"></div>
 				<div class="fb-comments" data-href="http://127.0.0.1:8000/blog/blogpost/{{post.post_id}}" data-width="" data-numposts="5"></div> -->
@@ -81,32 +88,48 @@
 				<b>{{comment.user.username}}</b> <span class="badge badge-primary">{{comment.timestamp | naturaltime}}</span> 
 				<div> {{comment.comment}} </div>
 
-				<div class="reply mx-0">
-					<button class="btn btn-primary" data-toggle="collapse" data-target="#replyBox{{comment.sl_no}}" aria-controls="#replyBox{{comment.sl_no}}" aria-expanded="false">Reply</button>
-				</div>
+				{% if request.session.is_authenticated %}
 
-				<div class="collapse" id="replyBox{{comment.sl_no}}">
-					<div class="card card-body my-2">
-
-						<form method="post" action="/blog/postComment">
-							{% csrf_token %}
-
-							<div class="form-group">
-								<label for="comment">&nbsp;Post a Reply as <b>{{request.session.username}}</b></label>
-								<input type="text" class="form-control" name="comment" placeholder="Enter Reply Here">
-								<input type="hidden" name="parent_sno" value="{{comment.sl_no}}">
-							</div>
-							<input type="hidden" name="post_id" value="{{post.post_id}}">
-							<button type="submit" class="btn btn-primary">Submit</button>
-						</form>
-
+					<div class="reply mx-0">
+						<a class="btn" style="color: blue; font-size: 10px" data-toggle="collapse" data-target="#replyBox{{comment.sl_no}}" aria-controls="#replyBox{{comment.sl_no}}" aria-expanded="false">
+							Reply
+						</a>
 					</div>
-				</div>
 
-				<div class="replies bg-danger my-2">
+					<div class="collapse" id="replyBox{{comment.sl_no}}">
+						<div class="card card-body my-2">
+
+							<form method="post" action="/blog/postComment">
+								{% csrf_token %}
+
+								<div class="form-group">
+									<label for="comment">&nbsp;Post a Reply as <b>{{request.session.username}}</b></label>
+									<input type="text" class="form-control" name="comment" placeholder="Enter Reply Here">
+									<input type="hidden" name="parent_sno" value="{{comment.sl_no}}">
+								</div>
+								<input type="hidden" name="post_id" value="{{post.post_id}}">
+								<button type="submit" class="btn btn-primary">Submit</button>
+							</form>
+
+						</div>
+					</div>
+
+				{% endif %}
+
+				<div class="replies my-2">
 					{% for reply in reply_dict|get_val:comment.sl_no %}
-						{{reply.comment}}
-						<br>
+
+						<div class="row my-2">
+							<div class="col-md-1">
+								<img src="/media/blog/images/blank-profile-picture-973460_640.png" class="rounded mx-auto d-block w-100 p-2" alt="User">
+							</div>
+
+							<div class="col-md-11 mt-1"> 
+								<b>{{reply.user.username}}</b> <span class="badge badge-primary">{{reply.timestamp | naturaltime}}</span> 
+								<div> {{reply.comment}} </div>
+							</div>
+						</div>
+						
 					{% endfor %}
 				</div>
 
@@ -116,5 +139,18 @@
 	{% endfor %}
 
 </div>
+
+{% endblock %}
+
+
+{% block js %}
+	<script>
+		window.onload = function() {
+			var anchors = document.getElementsByClassName("blog-content")[0].getElementsByTagName("a");
+			for (var i = 0; i < anchors.length; i++) {
+				anchors[i] = anchors[i].removeAttribute("href");
+			}
+		};
+	</script>
 
 {% endblock %}

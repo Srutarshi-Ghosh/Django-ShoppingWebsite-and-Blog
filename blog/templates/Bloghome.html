@@ -2,7 +2,7 @@
 
 {% block homeactive %} active {% endblock %}
 
-{% block  body %}
+{% block body %}
 
 	<div class="container">
 		<div class="jumbotron">
@@ -22,9 +22,12 @@
 					<a class="text-dark" href="{{post.slug}}">
 						<h3 class="mb-0">{{post.title}}</h3>
 					</a>
-					<div class="mb-1 text-muted">{{post.pub_date}}</div>
-					<p class="card-text mb-auto">{{post.content | truncatechars:400}}</p>
-
+					<div class="mb-1 text-muted">
+						{{post.pub_date}}
+					</div>
+					<div>
+						<span class="preview">{{post.content | safe | truncatechars:400}}</span>
+					</div>
 					<div class="my-2">
 						<a role="button" href="{{post.slug}}" class="btn btn-primary">Continue reading</a>
 					</div>
@@ -39,5 +42,17 @@
 
 	</div>
 
+
+{% endblock %}
+
+
+{% block js %}
+	<script>
+		let previews = document.getElementsByClassName('preview');
+		Array.from(previews).forEach((elem)=> {
+			elem.innerHTML = elem.innerText;
+		});
+
+	</script>
 
 {% endblock %}
